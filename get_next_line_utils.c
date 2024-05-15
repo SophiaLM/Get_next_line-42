@@ -1,3 +1,5 @@
+#include "get_next_line.h"
+
 int	ft_strlen(char *str)
 {
 	int	i;
@@ -8,6 +10,53 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-void	*ft_calloc(char *str)
+char	*ft_str_append(char *s1, char *s2)
 {
+	char	*s3;
+	int	i;
+	int	j;
+	int	g;
+
+	if (!s1 || !s2)
+		return (NULL);
+	s3 = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1); //se podria cambiar por calloc para ya tenerla con nulos	
+	if (!s3)
+		return (NULL);
+	i = 0;
+	j = 0;
+	g = 0;
+	while (s1[i])
+		s3[g++] = s1[i++];
+	while (s2[j])
+		s3[g++] = s2[j++];
+	s3[g]  = '\0';
+	free(s1);
+	return (s3);
+}
+
+char	*ft_strchr(const char *str, int c)
+{
+	while (*str)
+	{
+		if (*str == (char)c)
+			return ((char *)str);
+		str++;
+	}
+	if ((char)c == '\0')
+		return ((char *)str);
+	return (NULL);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*str;
+	int	i;
+
+	str = (void *)malloc(count * size);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (i++ < ft_strlen(str))
+		*(unsigned char *)str++ = 0;
+	return (str);
 }

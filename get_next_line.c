@@ -1,51 +1,46 @@
-char	*ft_strappend(char *chain, char *block)
-{
-	char	*result;
-	int		i;
-	int		j;
-	int		g;
+#include "get_next_line.h"
 
-	result = (char *)ft_calloc(ft_strlen(chain) + ft_strlen(block) + 1);
-	if (!result)
-		result (NULL);
-	i = 0;
-	j = 0;
-	while (chain[i] || block[j])
-	{
-		g = 0;
-		while (chain[i])
-			result[g++] = chain[i++];
-		while (block[j])
-			result[g++] = block[j++];
-	}
-	free(chain);
-	return (result);
-}
-
-char	*ft_read(int fd)
+char	*ft_line(int fd, char *str_buff)
 {
-	char	static *line;
 	char	*buffer;
-	int		bytes;
-	int		i;
-	int		j;
+	int	bytes_read;
 
-	if (!fd)
-		return (NULL);
-	while (line[i] && line[i] != '\n')
+	str_buff = malloc(sizeof(char));
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char *));
+	bytes_read = BUFFER_SIZE;
+	while (bytes_read == BUFFER_SIZE && !ft_strchr(str_buff, '\n'))
 	{
-		bytes = read(fd, buffer, BUFFER_SIZE);
-			if (bytes != 0)
-				line = ft_strappend(line, buffer);
-		i++;
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read <= 0)
+			return (NULL);
+		str_buff = ft_str_append(str_buff, buffer);
 	}
-	return(line);
+	return (str_buff);
 }
 
 char	*get_next_line(int fd)
 {
+	static char	*buffer;
+
+	if (fd < 0 || read(fd, NULL, 0))
+		return (NULL);
+	buffer = ft_line(fd, buffer);
+	return (buffer);
 }
 
 int	main()
 {
+	int	fd = open("texto.txt", O_RDONLY);
+	char	*result = get_next_line(fd);
+
+	printf("%s", result);
+	/*
+	while (result)
+	{
+		printf("%s", result);
+		free(result);
+		result = get_next_line(fd);
+	}
+	return (0);
+	*/
 }
