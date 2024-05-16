@@ -19,7 +19,7 @@ char	*ft_str_append(char *s1, char *s2)
 
 	if (!s1 || !s2)
 		return (NULL);
-	s3 = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1); //se podria cambiar por calloc para ya tenerla con nulos	
+	s3 = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!s3)
 		return (NULL);
 	i = 0;
@@ -50,13 +50,13 @@ char	*ft_strchr(const char *str, int c)
 void	*ft_calloc(size_t count, size_t size)
 {
 	void	*str;
-	int	i;
+	size_t	i;
 
 	str = (void *)malloc(count * size);
 	if (!str)
 		return (NULL);
 	i = 0;
-	while (i++ < ft_strlen(str))
+	while (i++ < count)
 		*(unsigned char *)str++ = 0;
 	return (str);
 }

@@ -1,6 +1,6 @@
 #include "get_next_line.h"
 
-char	*ft_line(int fd, char *str_buff)
+char	*ft_read_line(int fd, char *str_buff)
 {
 	char	*buffer;
 	int	bytes_read;
@@ -18,14 +18,35 @@ char	*ft_line(int fd, char *str_buff)
 	return (str_buff);
 }
 
+char	*ft_get_line(char *str_line)
+{
+	char	*line;
+	int	len;
+	int	i;
+	int	j;
+
+	len = ft_strlen(str_line);
+	line = ft_calloc(len, sizeof(char *));
+	i = 0;
+	j = 0;
+	while (i < len && str_line[j] != '\n')
+	{
+		line[i++]  = str_line[j++];
+	}
+	line[i] = '\0';
+	return (line);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
+	char		*line;
 
-	if (fd < 0 || read(fd, NULL, 0))
+	if (fd < 0 || read(fd, NULL, 0) || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = ft_line(fd, buffer);
-	return (buffer);
+	line = ft_read_line(fd, buffer);//funcion que lee hasta el salto
+	buffer = ft_get_line(line); //funcion que saca la linea hasta el salto
+	return (line);
 }
 
 int	main()
@@ -33,8 +54,8 @@ int	main()
 	int	fd = open("texto.txt", O_RDONLY);
 	char	*result = get_next_line(fd);
 
-	printf("%s", result);
-	/*
+	printf("%s\n", result);
+/*
 	while (result)
 	{
 		printf("%s", result);
@@ -42,5 +63,5 @@ int	main()
 		result = get_next_line(fd);
 	}
 	return (0);
-	*/
+*/
 }
