@@ -29,8 +29,8 @@ char	*ft_str_append(char *s1, char *s2)
 		s3[g++] = s1[i++];
 	while (s2[j])
 		s3[g++] = s2[j++];
-	s3[g]  = '\0';
-	free(s1);
+	s3[g] = '\0';
+//	free(s2);
 	return (s3);
 }
 
