@@ -46,8 +46,11 @@ char	*ft_get_line(char *str_line)
 	return (line);
 }
 /*
-char	*ft_save_next(char *str_line, int c)
+char	*ft_save_next(char *str_line)
 {
+	char	*buffer;
+
+	buffer = ft_strchr(str_
 }
 */
 char	*get_next_line(int fd)
@@ -57,9 +60,15 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || read(fd, NULL, 0) || BUFFER_SIZE <= 0)
 		return (NULL);
-	line = ft_read_line(fd, buffer);//funcion que lee hasta el salto
-	buffer = ft_strchr(line, '\n');//Funcion que se queda con el extra
-	line = ft_get_line(line); //funcion que saca la linea hasta el salto
+	line = ft_read_line(fd, buffer);
+	if (buffer)
+	{
+		free(buffer);
+		buffer = ft_strchr(line, '\n');
+	}
+	else
+		buffer = ft_strchr(line, '\n');
+	line = ft_get_line(line);
 	return (line);
 }
 
