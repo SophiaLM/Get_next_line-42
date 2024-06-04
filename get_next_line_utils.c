@@ -30,7 +30,7 @@ char	*ft_str_append(char *s1, char *s2)
 	while (s2[j])
 		s3[g++] = s2[j++];
 	s3[g] = '\0';
-//	free(s2);
+	free(s2);
 	return (s3);
 }
 
